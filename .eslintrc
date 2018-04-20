@@ -1,0 +1,16 @@
+{
+  "extends": ["react-app", "airbnb"],
+  "rules": {
+    "react/jsx-filename-extension": 0,
+    "no-unused-expressions": ["error", { "allowTaggedTemplates": true }],
+    "jsx-a11y/anchor-is-valid": [
+      "error",
+      {
+        "components": ["Link"],
+        "specialLink": ["to", "hrefLeft", "hrefRight"],
+        "aspects": ["noHref", "invalidHref", "preferButton"]
+      }
+    ],
+    "linebreak-style": 0
+  }
+}
