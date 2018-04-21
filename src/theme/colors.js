@@ -1,4 +1,6 @@
 export default {
+  player1: '#00A2FF',
+  player2: '#EE220C',
   primary: '#0066cc',
   secondary: '#aa6699',
   danger: '#ff0000',

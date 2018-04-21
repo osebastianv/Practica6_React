@@ -1,4 +1,5 @@
 import React from 'react';
+// import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -8,11 +9,26 @@ const StyledWrapper = styled.div`
   padding: ${props => props.theme.space.md};
 `;
 
-const Content = () => (
+const Content = ({ currentPlayer, gameData, gameOver }) => (
   <StyledWrapper>
-    <Route exact path="/" component={Game} />
+    <Route
+      exact
+      path="/"
+      component={Game}
+      currentPlayer={currentPlayer}
+      gameData={gameData}
+      gameOver={gameOver}
+    />
     <Route exact path="/ranking" component={Ranking} />
   </StyledWrapper>
 );
+
+Content.defaultProps = {
+  ...Game.defaultProps,
+};
+
+Content.propTypes = {
+  ...Game.propTypes,
+};
 
 export default Content;

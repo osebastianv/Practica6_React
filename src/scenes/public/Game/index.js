@@ -1,5 +1,17 @@
 import React from 'react';
 
-const Game = () => 'Game';
+import { Grid } from '../../../components';
+
+const Game = ({ currentPlayer, gameData, gameOver }) => (
+  <Grid currentPlayer={currentPlayer} gameData={gameData} gameOver={gameOver} />
+);
+
+Game.defaultProps = {
+  ...Grid.defaultProps,
+};
+
+Game.propTypes = {
+  ...Grid.propTypes,
+};
 
 export default Game;
