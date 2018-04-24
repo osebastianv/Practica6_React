@@ -9,15 +9,21 @@ const StyledWrapper = styled.div`
   padding: ${props => props.theme.space.md};
 `;
 
-const Content = ({ currentPlayer, gameData, gameOver }) => (
+const Content = ({
+  currentPlayer, gameData, gameOver, addToList,
+}) => (
   <StyledWrapper>
     <Route
       exact
       path="/"
-      component={Game}
-      currentPlayer={currentPlayer}
-      gameData={gameData}
-      gameOver={gameOver}
+      component={() => (
+        <Game
+          currentPlayer={currentPlayer}
+          gameData={gameData}
+          gameOver={gameOver}
+          addToList={addToList}
+        />
+      )}
     />
     <Route exact path="/ranking" component={Ranking} />
   </StyledWrapper>

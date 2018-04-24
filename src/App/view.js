@@ -19,14 +19,21 @@ injectGlobal`
   }
 `;
 
-const App = ({ currentPlayer, gameData, gameOver }) => (
+const App = ({
+  currentPlayer, gameData, gameOver, addToList,
+}) => (
   <BrowserRouter>
     <ThemeProvider theme={theme}>
       <div>
         <Header>
           <Menu />
         </Header>
-        <Content currentPlayer={currentPlayer} gameData={gameData} gameOver={gameOver} />
+        <Content
+          currentPlayer={currentPlayer}
+          gameData={gameData}
+          gameOver={gameOver}
+          addToList={addToList}
+        />
       </div>
     </ThemeProvider>
   </BrowserRouter>
