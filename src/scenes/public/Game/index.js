@@ -3,13 +3,14 @@ import React from 'react';
 import { Grid } from '../../../components';
 
 const Game = ({
-  currentPlayer, gameData, gameOver, addToList,
+  currentPlayer, gameData, gameOver, updateList, resetList,
 }) => (
   <Grid
     currentPlayer={currentPlayer}
     gameData={gameData}
     gameOver={gameOver}
-    addToList={addToList}
+    updateList={updateList}
+    resetList={resetList}
   />
 );
 

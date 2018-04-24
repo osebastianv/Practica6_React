@@ -20,7 +20,7 @@ injectGlobal`
 `;
 
 const App = ({
-  currentPlayer, gameData, gameOver, addToList,
+  currentPlayer, gameData, gameOver, updateList, resetList,
 }) => (
   <BrowserRouter>
     <ThemeProvider theme={theme}>
@@ -32,7 +32,8 @@ const App = ({
           currentPlayer={currentPlayer}
           gameData={gameData}
           gameOver={gameOver}
-          addToList={addToList}
+          updateList={updateList}
+          resetList={resetList}
         />
       </div>
     </ThemeProvider>

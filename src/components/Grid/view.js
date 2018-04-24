@@ -27,16 +27,25 @@ const StyledItem = styled.div`
   width: 80px;
   height: 80px;
   border: 1px solid black;
-  background: ${props =>
+  background: ${(props) => {
+    if (props.player === 1) {
+      return props.theme.colors.player1;
+    } else if (props.player === 2) {
+      return props.theme.colors.player2;
+    }
+    return props.theme.colors.white;
+  }};
+
+  /*background: ${props =>
     (props.player === 1
       ? props.theme.colors.player1
       : props.player === 2
         ? props.theme.colors.player2
-        : props.theme.colors.white)};
+        : props.theme.colors.white)};*/
 `;
 
 const Grid = ({
-  currentPlayer, gameData, gameOver, addToList,
+  currentPlayer, gameData, gameOver, updateList, resetList,
 }) => (
   // console.log('3a', gameData, 'b', currentPlayer, 'c', gameOver);
   <StyledWrapper>
@@ -44,13 +53,20 @@ const Grid = ({
       <StyledGrid>
         {gameData &&
           gameData.map(value => (
-            // console.log('5', value);
-            <StyledItem onClick={() => addToList(value.row)} key={value.row} player={value.player}>
+            <StyledItem
+              onClick={() => {
+                if (value.player === 0) {
+                  updateList(value.row);
+                }
+              }}
+              key={value.row}
+              player={value.player}
+            >
               {value.row}
             </StyledItem>
           ))}
       </StyledGrid>
-      <Button>Reset</Button>
+      <Button onClick={resetList}>Reset</Button>
     </StyledSection>
 
     <div>

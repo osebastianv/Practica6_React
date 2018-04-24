@@ -13,7 +13,8 @@ class Grid extends Component {
     currentPlayer: PropTypes.number,
     gameData: PropTypes.arrayOf(PropTypes.any),
     gameOver: PropTypes.bool,
-    addToList: PropTypes.func.isRequired,
+    updateList: PropTypes.func.isRequired,
+    resetList: PropTypes.func.isRequired,
   };
   render() {
     console.log('4', this.props.gameData);
@@ -22,7 +23,8 @@ class Grid extends Component {
         currentPlayer={this.props.currentPlayer}
         gameData={this.props.gameData}
         gameOver={this.props.gameOver}
-        addToList={this.props.addToList}
+        updateList={this.props.updateList}
+        resetList={this.props.resetList}
       />
     );
   }

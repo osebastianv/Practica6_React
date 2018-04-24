@@ -6,52 +6,80 @@ const CURRENT_PLAYER = 'currentPlayer';
 const GAME_DATA = 'gameData';
 const GAME_OVER = 'gameOver';
 
-let currentPlayer = localStorage.getItem(CURRENT_PLAYER);
-if (!currentPlayer) {
-  currentPlayer = 1;
-  localStorage.setItem(CURRENT_PLAYER, currentPlayer);
+let currentPlayerSrc = localStorage.getItem(CURRENT_PLAYER);
+if (!currentPlayerSrc) {
+  currentPlayerSrc = 1;
+  localStorage.setItem(CURRENT_PLAYER, currentPlayerSrc);
 }
 
-let gameData = localStorage.getItem(GAME_DATA);
+let gameDataSrc = localStorage.getItem(GAME_DATA);
 // console.log('1', gameData);
-if (!gameData) {
-  gameData = [];
-  for (let i = 0; i < 9; i += 1) {
-    const dataObj = {
-      row: i,
-      player: 0,
-    };
-    gameData.push(dataObj);
-  }
-  // console.log('2', gameData);
-  localStorage.setItem(GAME_DATA, JSON.stringify(gameData));
+if (!gameDataSrc) {
+  localStorage.setItem(GAME_DATA, JSON.stringify([]));
 }
 
-const gameOver = localStorage.getItem(GAME_OVER);
-if (!gameOver) {
+const gameOverSrc = localStorage.getItem(GAME_OVER);
+if (!gameOverSrc) {
   localStorage.setItem(GAME_OVER, false);
 }
 
 class App extends Component {
   state = {
-    currentPlayer: currentPlayer && JSON.parse(currentPlayer),
-    gameData: !!gameData && JSON.parse(gameData),
-    gameOver: !!gameOver && JSON.parse(gameOver),
+    currentPlayer: !!currentPlayerSrc && JSON.parse(currentPlayerSrc),
+    gameData: !!gameDataSrc && JSON.parse(gameDataSrc),
+    gameOver: !!gameOverSrc && JSON.parse(gameOverSrc),
+    allChecked: false,
+  };
+
+  componentDidMount() {
+    if (!gameDataSrc) {
+      this.resetList();
+    }
+  }
+
+  resetList = () => {
+    gameDataSrc = [];
+    for (let i = 0; i < 9; i += 1) {
+      const dataObj = {
+        row: i,
+        player: 0,
+      };
+      gameDataSrc.push(dataObj);
+    }
+    this.setState({
+      gameData: gameDataSrc,
+    });
+
+    localStorage.setItem(GAME_DATA, JSON.stringify(gameDataSrc));
   };
 
   checkArray = (array, player) => false;
 
   check3in1 = (data, player, row) => {
-    const array = [];
+    // const arrayAllChecked = data.filter(v => v.player !== 0);
+    const areAllChecked = false;
+    const arrayAllChecked = data.filter(v => v.player !== 0);
+    console.log('arrayAllChecked', data);
+
+    const array = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [3, 5, 7],
+    ];
     // Posibles combinaciones
-    array.push([0, 1, 2]);
+    /* array.push([0, 1, 2]);
     array.push([3, 4, 5]);
     array.push([6, 7, 8]);
     array.push([0, 3, 6]);
     array.push([1, 4, 7]);
     array.push([2, 5, 8]);
     array.push([0, 4, 8]);
-    array.push([3, 5, 7]);
+    array.push([3, 5, 7]); */
 
     const filteredArray = array.filter((v) => {
       const exists = v.filter(p => p === row);
@@ -63,10 +91,11 @@ class App extends Component {
     const isGameOver = this.checkArray(filteredArray, player);
     console.log('isGameOver', isGameOver);
 
-    return isGameOver;
+    /* gameOver: isGameOver,
+      allChecked: areAllChecked, */
   };
 
-  addToList = (row) => {
+  updateList = (row) => {
     // const valor = e.target.class;
     // console.log('e', e);
     // console.log('e.target', e.target);
@@ -83,7 +112,8 @@ class App extends Component {
       localStorage.setItem(GAME_DATA, JSON.stringify(newGameData));
 
       // Comprobamos si hay 3 en raya
-      const newGameOver = this.check3in1(row, prevState.currentPlayer);
+      const newGameOver = this.check3in1(newGameData, prevState.currentPlayer, row);
+      console.log('newGameOver', newGameOver);
 
       let newPlayer = prevState.currentPlayer;
       if (!newGameOver) {
@@ -106,7 +136,8 @@ class App extends Component {
         currentPlayer={this.state.currentPlayer}
         gameData={this.state.gameData}
         gameOver={this.state.gameOver}
-        addToList={this.addToList}
+        updateList={this.updateList}
+        resetList={this.resetList}
       />
     );
   }

@@ -10,7 +10,7 @@ const StyledWrapper = styled.div`
 `;
 
 const Content = ({
-  currentPlayer, gameData, gameOver, addToList,
+  currentPlayer, gameData, gameOver, updateList, resetList,
 }) => (
   <StyledWrapper>
     <Route
@@ -21,7 +21,8 @@ const Content = ({
           currentPlayer={currentPlayer}
           gameData={gameData}
           gameOver={gameOver}
-          addToList={addToList}
+          updateList={updateList}
+          resetList={resetList}
         />
       )}
     />
