@@ -17,7 +17,7 @@ class Grid extends Component {
     resetList: PropTypes.func.isRequired,
   };
   render() {
-    console.log('4', this.props.gameData);
+    // console.log('4', this.props.gameData);
     return (
       <GridView
         currentPlayer={this.props.currentPlayer}

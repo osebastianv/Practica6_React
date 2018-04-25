@@ -18,9 +18,10 @@ if (!gameDataSrc) {
   localStorage.setItem(GAME_DATA, JSON.stringify([]));
 }
 
-const gameOverSrc = localStorage.getItem(GAME_OVER);
+let gameOverSrc = localStorage.getItem(GAME_OVER);
 if (!gameOverSrc) {
-  localStorage.setItem(GAME_OVER, false);
+  gameOverSrc = false;
+  localStorage.setItem(GAME_OVER, gameOverSrc);
 }
 
 class App extends Component {
@@ -28,7 +29,6 @@ class App extends Component {
     currentPlayer: !!currentPlayerSrc && JSON.parse(currentPlayerSrc),
     gameData: !!gameDataSrc && JSON.parse(gameDataSrc),
     gameOver: !!gameOverSrc && JSON.parse(gameOverSrc),
-    allChecked: false,
   };
 
   componentDidMount() {
@@ -46,22 +46,24 @@ class App extends Component {
       };
       gameDataSrc.push(dataObj);
     }
-    this.setState({
-      gameData: gameDataSrc,
-    });
-
     localStorage.setItem(GAME_DATA, JSON.stringify(gameDataSrc));
+
+    currentPlayerSrc = 1;
+    localStorage.setItem(CURRENT_PLAYER, currentPlayerSrc);
+
+    gameOverSrc = false;
+    localStorage.setItem(GAME_OVER, gameOverSrc);
+
+    this.setState({
+      currentPlayer: currentPlayerSrc,
+      gameData: gameDataSrc,
+      gameOver: gameOverSrc,
+    });
   };
 
-  checkArray = (array, player) => false;
-
-  check3in1 = (data, player, row) => {
-    // const arrayAllChecked = data.filter(v => v.player !== 0);
-    const areAllChecked = false;
-    const arrayAllChecked = data.filter(v => v.player !== 0);
-    console.log('arrayAllChecked', data);
-
-    const array = [
+  checkGameOver = (data, player) => {
+    // Combinaciones de victoria
+    const arrayWin = [
       [0, 1, 2],
       [3, 4, 5],
       [6, 7, 8],
@@ -69,37 +71,61 @@ class App extends Component {
       [1, 4, 7],
       [2, 5, 8],
       [0, 4, 8],
-      [3, 5, 7],
+      [2, 4, 6],
     ];
-    // Posibles combinaciones
-    /* array.push([0, 1, 2]);
-    array.push([3, 4, 5]);
-    array.push([6, 7, 8]);
-    array.push([0, 3, 6]);
-    array.push([1, 4, 7]);
-    array.push([2, 5, 8]);
-    array.push([0, 4, 8]);
-    array.push([3, 5, 7]); */
 
-    const filteredArray = array.filter((v) => {
-      const exists = v.filter(p => p === row);
-      const element = exists === true ? v : [];
-      return element;
-    });
-    console.log('filteredArray', filteredArray);
+    let isGameOver = false;
+    for (let i = 0; i < arrayWin.length; i += 1) {
+      const [a, b, c] = arrayWin[i];
+      console.log(
+        '[',
+        a,
+        ', ',
+        b,
+        ', ',
+        c,
+        ']',
+        ' -> [',
+        data[a].player,
+        ', ',
+        data[b].player,
+        ', ',
+        data[c].player,
+        ']',
+        '-Player-',
+        player,
+      );
+      // if (((data[a].player === data[b].player) === data[c].player) === player) {
+      if (
+        data[a].player === data[b].player &&
+        data[b].player === data[c].player &&
+        data[c].player === player
+      ) {
+        // console.log('Ganador');
+        isGameOver = true;
+        break;
+      }
+    }
 
-    const isGameOver = this.checkArray(filteredArray, player);
-    console.log('isGameOver', isGameOver);
+    return isGameOver;
+  };
 
-    /* gameOver: isGameOver,
-      allChecked: areAllChecked, */
+  checkEndOfGame = (data) => {
+    // Combinaciones de victoria
+    let isEndOfGame = true;
+
+    for (let i = 0; i < data.length; i += 1) {
+      if (data[i].player === 0) {
+        isEndOfGame = false;
+        break;
+      }
+    }
+
+    return isEndOfGame;
   };
 
   updateList = (row) => {
-    // const valor = e.target.class;
-    // console.log('e', e);
-    // console.log('e.target', e.target);
-    console.log('row', row);
+    // console.log('row', row);
 
     this.setState((prevState) => {
       const newGameData = prevState.gameData;
@@ -108,20 +134,29 @@ class App extends Component {
         return {};
       }
 
+      let newPlayer = prevState.currentPlayer;
+
+      // Update square clicked
       newGameData[row].player = prevState.currentPlayer;
       localStorage.setItem(GAME_DATA, JSON.stringify(newGameData));
 
-      // Comprobamos si hay 3 en raya
-      const newGameOver = this.check3in1(newGameData, prevState.currentPlayer, row);
-      console.log('newGameOver', newGameOver);
-
-      let newPlayer = prevState.currentPlayer;
-      if (!newGameOver) {
-        newPlayer = newPlayer === 1 ? 2 : 1;
+      let newGameOver = this.checkGameOver(newGameData, prevState.currentPlayer);
+      if (newGameOver === false) {
+        const isEndOfGame = this.checkEndOfGame(newGameData);
+        if (isEndOfGame === true) {
+          newPlayer = 0;
+          newGameOver = true;
+        }
       }
 
-      // const newData = prevState.dataList.concat(breedObj);
-      // localStorage.setItem(GAME_DATA, JSON.stringify(newData));
+      if (!newGameOver) {
+        // Next Player
+        newPlayer = prevState.currentPlayer === 1 ? 2 : 1;
+      }
+
+      localStorage.setItem(GAME_OVER, newGameOver);
+      localStorage.setItem(CURRENT_PLAYER, newPlayer);
+
       return {
         currentPlayer: newPlayer,
         gameData: newGameData,

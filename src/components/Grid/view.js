@@ -35,19 +35,21 @@ const StyledItem = styled.div`
     }
     return props.theme.colors.white;
   }};
+`;
 
-  /*background: ${props =>
-    (props.player === 1
-      ? props.theme.colors.player1
-      : props.player === 2
-        ? props.theme.colors.player2
-        : props.theme.colors.white)};*/
+const StyledButton = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+`;
+
+const StyledPlayer = styled.div`
+  margin-left: 25px;
 `;
 
 const Grid = ({
   currentPlayer, gameData, gameOver, updateList, resetList,
 }) => (
-  // console.log('3a', gameData, 'b', currentPlayer, 'c', gameOver);
   <StyledWrapper>
     <StyledSection>
       <StyledGrid>
@@ -55,7 +57,7 @@ const Grid = ({
           gameData.map(value => (
             <StyledItem
               onClick={() => {
-                if (value.player === 0) {
+                if (value.player === 0 && !gameOver) {
                   updateList(value.row);
                 }
               }}
@@ -66,12 +68,16 @@ const Grid = ({
             </StyledItem>
           ))}
       </StyledGrid>
-      <Button onClick={resetList}>Reset</Button>
+      <StyledButton>
+        <Button onClick={resetList}>Reset</Button>
+      </StyledButton>
     </StyledSection>
 
-    <div>
-      Turno: Player 1 --- {currentPlayer} --- {gameOver}
-    </div>
+    <StyledPlayer>
+      {!gameOver && <p> Turno: Jugador {currentPlayer} </p>}
+      {gameOver && currentPlayer === 0 && <p> Empate </p>}
+      {gameOver && currentPlayer !== 0 && <p> Jugador {currentPlayer} gana </p>}
+    </StyledPlayer>
   </StyledWrapper>
 );
 Grid.defaultProps = {
@@ -84,7 +90,8 @@ Grid.propTypes = {
   currentPlayer: PropTypes.number,
   gameData: PropTypes.arrayOf(PropTypes.any).isRequired,
   gameOver: PropTypes.bool,
-  addToList: PropTypes.func.isRequired,
+  updateList: PropTypes.func.isRequired,
+  resetList: PropTypes.func.isRequired,
 };
 
 export default Grid;
