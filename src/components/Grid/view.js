@@ -44,6 +44,7 @@ const StyledButton = styled.div`
 `;
 
 const StyledPlayer = styled.div`
+  display: inline-block;
   margin-left: 25px;
 `;
 
@@ -74,20 +75,23 @@ const Grid = ({
     </StyledSection>
 
     <StyledPlayer>
-      {!gameOver && <p> Turno {currentTurn}: Jugador {currentPlayer} </p>}
-      {gameOver && currentPlayer === 0 && <p> Empate </p>}
-      {gameOver && currentPlayer !== 0 && <p> Jugador {currentPlayer} Gana </p>}
+      Turno {currentTurn}:
+      {!gameOver && <span> Jugador {currentPlayer} </span>}
+      {gameOver && currentPlayer === 0 && <span> Empate </span>}
+      {gameOver && currentPlayer !== 0 && <span> Jugador {currentPlayer} Gana </span>}
     </StyledPlayer>
   </StyledWrapper>
 );
 Grid.defaultProps = {
   currentPlayer: 1,
+  currentTurn: 1,
   // gameData: [{ row: 0, player: 1 }],  //quitar
   gameOver: false,
 };
 
 Grid.propTypes = {
   currentPlayer: PropTypes.number,
+  currentTurn: PropTypes.number,
   gameData: PropTypes.arrayOf(PropTypes.any).isRequired,
   gameOver: PropTypes.bool,
   updateList: PropTypes.func.isRequired,

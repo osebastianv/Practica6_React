@@ -148,7 +148,7 @@ class App extends Component {
       }
 
       let newPlayer = prevState.currentPlayer;
-      const newTurn = prevState.currentTurn + 1;
+      let newTurn = prevState.currentTurn;
 
       // Update square clicked
       newGameData[row].player = prevState.currentPlayer;
@@ -167,6 +167,7 @@ class App extends Component {
       if (!newGameOver) {
         // Next Player
         newPlayer = prevState.currentPlayer === 1 ? 2 : 1;
+        newTurn += 1;
       }
 
       localStorage.setItem(GAME_OVER, newGameOver);

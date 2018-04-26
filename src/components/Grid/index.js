@@ -6,11 +6,13 @@ import GridView from './view';
 class Grid extends Component {
   static defaultProps = {
     currentPlayer: 0,
+    currentTurn: 0,
     gameData: [],
     gameOver: false,
   };
   static propTypes = {
     currentPlayer: PropTypes.number,
+    currentTurn: PropTypes.number,
     gameData: PropTypes.arrayOf(PropTypes.any),
     gameOver: PropTypes.bool,
     updateList: PropTypes.func.isRequired,
@@ -21,6 +23,7 @@ class Grid extends Component {
     return (
       <GridView
         currentPlayer={this.props.currentPlayer}
+        currentTurn={this.props.currentTurn}
         gameData={this.props.gameData}
         gameOver={this.props.gameOver}
         updateList={this.props.updateList}
