@@ -48,7 +48,7 @@ const StyledPlayer = styled.div`
 `;
 
 const Grid = ({
-  currentPlayer, gameData, gameOver, updateList, resetList,
+  currentPlayer, currentTurn, gameData, gameOver, updateList, resetList,
 }) => (
   <StyledWrapper>
     <StyledSection>
@@ -64,7 +64,7 @@ const Grid = ({
               key={value.row}
               player={value.player}
             >
-              {value.row}
+              {value.turn !== 0 && value.turn}
             </StyledItem>
           ))}
       </StyledGrid>
@@ -74,9 +74,9 @@ const Grid = ({
     </StyledSection>
 
     <StyledPlayer>
-      {!gameOver && <p> Turno: Jugador {currentPlayer} </p>}
+      {!gameOver && <p> Turno {currentTurn}: Jugador {currentPlayer} </p>}
       {gameOver && currentPlayer === 0 && <p> Empate </p>}
-      {gameOver && currentPlayer !== 0 && <p> Jugador {currentPlayer} gana </p>}
+      {gameOver && currentPlayer !== 0 && <p> Jugador {currentPlayer} Gana </p>}
     </StyledPlayer>
   </StyledWrapper>
 );

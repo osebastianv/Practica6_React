@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import View from './view';
 
 const CURRENT_PLAYER = 'currentPlayer';
+const CURRENT_TURN = 'currentTurn';
 const GAME_DATA = 'gameData';
 const GAME_OVER = 'gameOver';
 
@@ -10,6 +11,12 @@ let currentPlayerSrc = localStorage.getItem(CURRENT_PLAYER);
 if (!currentPlayerSrc) {
   currentPlayerSrc = 1;
   localStorage.setItem(CURRENT_PLAYER, currentPlayerSrc);
+}
+
+let currentTurnSrc = localStorage.getItem(CURRENT_TURN);
+if (!currentTurnSrc) {
+  currentTurnSrc = 1;
+  localStorage.setItem(CURRENT_TURN, currentTurnSrc);
 }
 
 let gameDataSrc = localStorage.getItem(GAME_DATA);
@@ -27,6 +34,7 @@ if (!gameOverSrc) {
 class App extends Component {
   state = {
     currentPlayer: !!currentPlayerSrc && JSON.parse(currentPlayerSrc),
+    currentTurn: !!currentTurnSrc && JSON.parse(currentTurnSrc),
     gameData: !!gameDataSrc && JSON.parse(gameDataSrc),
     gameOver: !!gameOverSrc && JSON.parse(gameOverSrc),
   };
@@ -43,6 +51,7 @@ class App extends Component {
       const dataObj = {
         row: i,
         player: 0,
+        turn: 0,
       };
       gameDataSrc.push(dataObj);
     }
@@ -51,11 +60,15 @@ class App extends Component {
     currentPlayerSrc = 1;
     localStorage.setItem(CURRENT_PLAYER, currentPlayerSrc);
 
+    currentTurnSrc = 1;
+    localStorage.setItem(CURRENT_TURN, currentTurnSrc);
+
     gameOverSrc = false;
     localStorage.setItem(GAME_OVER, gameOverSrc);
 
     this.setState({
       currentPlayer: currentPlayerSrc,
+      currentTurn: currentTurnSrc,
       gameData: gameDataSrc,
       gameOver: gameOverSrc,
     });
@@ -135,9 +148,11 @@ class App extends Component {
       }
 
       let newPlayer = prevState.currentPlayer;
+      const newTurn = prevState.currentTurn + 1;
 
       // Update square clicked
       newGameData[row].player = prevState.currentPlayer;
+      newGameData[row].turn = prevState.currentTurn;
       localStorage.setItem(GAME_DATA, JSON.stringify(newGameData));
 
       let newGameOver = this.checkGameOver(newGameData, prevState.currentPlayer);
@@ -156,9 +171,11 @@ class App extends Component {
 
       localStorage.setItem(GAME_OVER, newGameOver);
       localStorage.setItem(CURRENT_PLAYER, newPlayer);
+      localStorage.setItem(CURRENT_TURN, newTurn);
 
       return {
         currentPlayer: newPlayer,
+        currentTurn: newTurn,
         gameData: newGameData,
         gameOver: newGameOver,
       };
@@ -169,6 +186,7 @@ class App extends Component {
     return (
       <View
         currentPlayer={this.state.currentPlayer}
+        currentTurn={this.state.currentTurn}
         gameData={this.state.gameData}
         gameOver={this.state.gameOver}
         updateList={this.updateList}
