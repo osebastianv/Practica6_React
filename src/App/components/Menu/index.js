@@ -25,7 +25,7 @@ const Menu = () => (
     <StyledLink exact to="/">
       Juego
     </StyledLink>
-    <StyledLink to="/Ranking">Ranking</StyledLink>
+    <StyledLink to="/ranking">Ranking</StyledLink>
   </StyledWrapper>
 );
 

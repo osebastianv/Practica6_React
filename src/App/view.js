@@ -20,7 +20,13 @@ injectGlobal`
 `;
 
 const App = ({
-  currentPlayer, currentTurn, gameData, gameOver, updateList, resetList,
+  currentPlayer,
+  currentTurn,
+  gameData,
+  gameOver,
+  updateList,
+  resetList,
+  historicalData,
 }) => (
   <BrowserRouter>
     <ThemeProvider theme={theme}>
@@ -35,6 +41,7 @@ const App = ({
           gameOver={gameOver}
           updateList={updateList}
           resetList={resetList}
+          historicalData={historicalData}
         />
       </div>
     </ThemeProvider>

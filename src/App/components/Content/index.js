@@ -10,7 +10,14 @@ const StyledWrapper = styled.div`
 `;
 
 const Content = ({
-  currentPlayer, currentTurn, gameData, gameOver, updateList, resetList,
+  currentPlayer,
+  currentTurn,
+  gameData,
+  gameOver,
+  updateList,
+  resetList,
+  historicalCounter,
+  historicalData,
 }) => (
   <StyledWrapper>
     <Route
@@ -27,7 +34,13 @@ const Content = ({
         />
       )}
     />
-    <Route exact path="/ranking" component={Ranking} />
+    <Route
+      exact
+      path="/ranking"
+      component={() => (
+        <Ranking historicalCounter={historicalCounter} historicalData={historicalData} />
+      )}
+    />
   </StyledWrapper>
 );
 

@@ -32,8 +32,9 @@ if (!gameOverSrc) {
   localStorage.setItem(GAME_OVER, gameOverSrc);
 }
 
-const historicalDataSrc = localStorage.getItem(HISTORICAL_DATA);
+let historicalDataSrc = localStorage.getItem(HISTORICAL_DATA);
 if (!historicalDataSrc) {
+  historicalDataSrc = '[]';
   localStorage.setItem(HISTORICAL_DATA, JSON.stringify([]));
 }
 
@@ -49,6 +50,9 @@ class App extends Component {
   componentDidMount() {
     if (!gameDataSrc) {
       this.resetList();
+    }
+    if (!historicalDataSrc) {
+      historicalDataSrc = localStorage.getItem(HISTORICAL_DATA);
     }
   }
 
@@ -73,17 +77,12 @@ class App extends Component {
     gameOverSrc = false;
     localStorage.setItem(GAME_OVER, gameOverSrc);
 
-    // historicalDataSrc = localStorage.getItem(HISTORICAL_DATA);
-    console.log('reset1 historicalDataSrc', historicalDataSrc);
-
     this.setState({
       currentPlayer: currentPlayerSrc,
       currentTurn: currentTurnSrc,
       gameData: gameDataSrc,
       gameOver: gameOverSrc,
-      // historicalData: historicalDataSrc,
     });
-    console.log('reset2 historicalDataSrc', historicalDataSrc);
   };
 
   checkGameOver = (data, player) => {
@@ -102,36 +101,15 @@ class App extends Component {
     let isGameOver = false;
     for (let i = 0; i < arrayWin.length; i += 1) {
       const [a, b, c] = arrayWin[i];
-      /* console.log(
-        '[',
-        a,
-        ', ',
-        b,
-        ', ',
-        c,
-        ']',
-        ' -> [',
-        data[a].player,
-        ', ',
-        data[b].player,
-        ', ',
-        data[c].player,
-        ']',
-        '-Player-',
-        player,
-      ); */
-      // if (((data[a].player === data[b].player) === data[c].player) === player) {
       if (
         data[a].player === data[b].player &&
         data[b].player === data[c].player &&
         data[c].player === player
       ) {
-        // console.log('Ganador');
         isGameOver = true;
         break;
       }
     }
-
     return isGameOver;
   };
 
@@ -191,7 +169,10 @@ class App extends Component {
         console.log('1-historicalDataSrc', historicalDataSrc);
         console.log('2-historicalData', newHistoricalData);
 
+        // console.log('newHistoricalData', newHistoricalData);
+
         newHistoricalData.push({
+          gameCounter: newHistoricalData.length + 1,
           currentPlayer: newPlayer,
           currentTurn: newTurn,
           gameData: newGameData,
