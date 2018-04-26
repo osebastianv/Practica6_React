@@ -6,6 +6,7 @@ const CURRENT_PLAYER = 'currentPlayer';
 const CURRENT_TURN = 'currentTurn';
 const GAME_DATA = 'gameData';
 const GAME_OVER = 'gameOver';
+const HISTORICAL_DATA = 'historicalData';
 
 let currentPlayerSrc = localStorage.getItem(CURRENT_PLAYER);
 if (!currentPlayerSrc) {
@@ -31,12 +32,18 @@ if (!gameOverSrc) {
   localStorage.setItem(GAME_OVER, gameOverSrc);
 }
 
+const historicalDataSrc = localStorage.getItem(HISTORICAL_DATA);
+if (!historicalDataSrc) {
+  localStorage.setItem(HISTORICAL_DATA, JSON.stringify([]));
+}
+
 class App extends Component {
   state = {
     currentPlayer: !!currentPlayerSrc && JSON.parse(currentPlayerSrc),
     currentTurn: !!currentTurnSrc && JSON.parse(currentTurnSrc),
     gameData: !!gameDataSrc && JSON.parse(gameDataSrc),
     gameOver: !!gameOverSrc && JSON.parse(gameOverSrc),
+    historicalData: !!historicalDataSrc && JSON.parse(historicalDataSrc),
   };
 
   componentDidMount() {
@@ -66,12 +73,17 @@ class App extends Component {
     gameOverSrc = false;
     localStorage.setItem(GAME_OVER, gameOverSrc);
 
+    // historicalDataSrc = localStorage.getItem(HISTORICAL_DATA);
+    console.log('reset1 historicalDataSrc', historicalDataSrc);
+
     this.setState({
       currentPlayer: currentPlayerSrc,
       currentTurn: currentTurnSrc,
       gameData: gameDataSrc,
       gameOver: gameOverSrc,
+      // historicalData: historicalDataSrc,
     });
+    console.log('reset2 historicalDataSrc', historicalDataSrc);
   };
 
   checkGameOver = (data, player) => {
@@ -90,7 +102,7 @@ class App extends Component {
     let isGameOver = false;
     for (let i = 0; i < arrayWin.length; i += 1) {
       const [a, b, c] = arrayWin[i];
-      console.log(
+      /* console.log(
         '[',
         a,
         ', ',
@@ -107,7 +119,7 @@ class App extends Component {
         ']',
         '-Player-',
         player,
-      );
+      ); */
       // if (((data[a].player === data[b].player) === data[c].player) === player) {
       if (
         data[a].player === data[b].player &&
@@ -174,11 +186,26 @@ class App extends Component {
       localStorage.setItem(CURRENT_PLAYER, newPlayer);
       localStorage.setItem(CURRENT_TURN, newTurn);
 
+      const newHistoricalData = prevState.historicalData;
+      if (newGameOver) {
+        console.log('1-historicalDataSrc', historicalDataSrc);
+        console.log('2-historicalData', newHistoricalData);
+
+        newHistoricalData.push({
+          currentPlayer: newPlayer,
+          currentTurn: newTurn,
+          gameData: newGameData,
+          gameOver: newGameOver,
+        });
+        localStorage.setItem(HISTORICAL_DATA, JSON.stringify(newHistoricalData));
+      }
+
       return {
         currentPlayer: newPlayer,
         currentTurn: newTurn,
         gameData: newGameData,
         gameOver: newGameOver,
+        historicalData: newHistoricalData,
       };
     });
   };
@@ -192,6 +219,7 @@ class App extends Component {
         gameOver={this.state.gameOver}
         updateList={this.updateList}
         resetList={this.resetList}
+        historicalData={this.state.historicalData}
       />
     );
   }

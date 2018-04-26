@@ -85,7 +85,6 @@ const Grid = ({
 Grid.defaultProps = {
   currentPlayer: 1,
   currentTurn: 1,
-  // gameData: [{ row: 0, player: 1 }],  //quitar
   gameOver: false,
 };
 
