@@ -6,21 +6,21 @@ import ListView from './view';
 class List extends Component {
   static defaultProps = {};
   static propTypes = {
-    historicalData: PropTypes.arrayOf(PropTypes.any).isRequired,
+    historyData: PropTypes.arrayOf(PropTypes.any).isRequired,
   };
-  state = {
-    listSelectedIndex: 0,
-  };
+  // state = {
+  //  listSelectedIndex: 0,
+  // };
 
-  selectElement = () => {};
+  // selectElement = () => {};
 
   render() {
     // console.log('4', this.props.gameData);
     return (
       <ListView
-        historicalData={this.props.historicalData}
-        listSelectedIndex={this.state.listSelectedIndex}
-        selectElement={this.selectElement}
+        historyData={this.props.historyData}
+        // listSelectedIndex={this.state.listSelectedIndex}
+        // selectElement={this.selectElement}
       />
     );
   }

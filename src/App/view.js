@@ -26,7 +26,7 @@ const App = ({
   gameOver,
   updateList,
   resetList,
-  historicalData,
+  historyData,
 }) => (
   <BrowserRouter>
     <ThemeProvider theme={theme}>
@@ -41,7 +41,7 @@ const App = ({
           gameOver={gameOver}
           updateList={updateList}
           resetList={resetList}
-          historicalData={historicalData}
+          historyData={historyData}
         />
       </div>
     </ThemeProvider>

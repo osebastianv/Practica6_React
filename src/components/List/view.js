@@ -32,13 +32,13 @@ const StyledPlayer = styled.div`
   margin-left: 25px;
 `;
 
-const List = ({ historicalData }) => (
+const List = ({ historyData }) => (
   <StyledWrapper>
-    <p>Total de partidas jugadas: {historicalData.length}</p>
+    <p>Total de partidas jugadas: {historyData.length}</p>
     <StyledBody>
       <StyledSection>
-        {historicalData &&
-          historicalData.map(value => (
+        {historyData &&
+          historyData.map(value => (
             <StyledItem key={value.gameCounter}>
               <span>Partida {value.gameCounter}: </span>
               {value.currentPlayer === 0 && <span> Empate </span>}
@@ -56,7 +56,7 @@ const List = ({ historicalData }) => (
 List.defaultProps = {};
 
 List.propTypes = {
-  historicalData: PropTypes.arrayOf(PropTypes.any).isRequired,
+  historyData: PropTypes.arrayOf(PropTypes.any).isRequired,
 };
 
 export default List;

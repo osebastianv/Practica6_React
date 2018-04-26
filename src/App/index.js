@@ -6,7 +6,7 @@ const CURRENT_PLAYER = 'currentPlayer';
 const CURRENT_TURN = 'currentTurn';
 const GAME_DATA = 'gameData';
 const GAME_OVER = 'gameOver';
-const HISTORICAL_DATA = 'historicalData';
+const HISTORICAL_DATA = 'historyData';
 
 let currentPlayerSrc = localStorage.getItem(CURRENT_PLAYER);
 if (!currentPlayerSrc) {
@@ -32,9 +32,9 @@ if (!gameOverSrc) {
   localStorage.setItem(GAME_OVER, gameOverSrc);
 }
 
-let historicalDataSrc = localStorage.getItem(HISTORICAL_DATA);
-if (!historicalDataSrc) {
-  historicalDataSrc = '[]';
+let historyDataSrc = localStorage.getItem(HISTORICAL_DATA);
+if (!historyDataSrc) {
+  historyDataSrc = '[]';
   localStorage.setItem(HISTORICAL_DATA, JSON.stringify([]));
 }
 
@@ -44,15 +44,15 @@ class App extends Component {
     currentTurn: !!currentTurnSrc && JSON.parse(currentTurnSrc),
     gameData: !!gameDataSrc && JSON.parse(gameDataSrc),
     gameOver: !!gameOverSrc && JSON.parse(gameOverSrc),
-    historicalData: !!historicalDataSrc && JSON.parse(historicalDataSrc),
+    historyData: !!historyDataSrc && JSON.parse(historyDataSrc),
   };
 
   componentDidMount() {
     if (!gameDataSrc) {
       this.resetList();
     }
-    if (!historicalDataSrc) {
-      historicalDataSrc = localStorage.getItem(HISTORICAL_DATA);
+    if (!historyDataSrc) {
+      historyDataSrc = localStorage.getItem(HISTORICAL_DATA);
     }
   }
 
@@ -164,21 +164,19 @@ class App extends Component {
       localStorage.setItem(CURRENT_PLAYER, newPlayer);
       localStorage.setItem(CURRENT_TURN, newTurn);
 
-      const newHistoricalData = prevState.historicalData;
+      const newHistoryData = prevState.historyData;
       if (newGameOver) {
-        console.log('1-historicalDataSrc', historicalDataSrc);
-        console.log('2-historicalData', newHistoricalData);
+        console.log('1-historyDataSrc', historyDataSrc);
+        console.log('2-historyData', newHistoryData);
 
-        // console.log('newHistoricalData', newHistoricalData);
-
-        newHistoricalData.push({
-          gameCounter: newHistoricalData.length + 1,
+        newHistoryData.push({
+          gameCounter: newHistoryData.length + 1,
           currentPlayer: newPlayer,
           currentTurn: newTurn,
           gameData: newGameData,
           gameOver: newGameOver,
         });
-        localStorage.setItem(HISTORICAL_DATA, JSON.stringify(newHistoricalData));
+        localStorage.setItem(HISTORICAL_DATA, JSON.stringify(newHistoryData));
       }
 
       return {
@@ -186,7 +184,7 @@ class App extends Component {
         currentTurn: newTurn,
         gameData: newGameData,
         gameOver: newGameOver,
-        historicalData: newHistoricalData,
+        historyData: newHistoryData,
       };
     });
   };
@@ -200,7 +198,7 @@ class App extends Component {
         gameOver={this.state.gameOver}
         updateList={this.updateList}
         resetList={this.resetList}
-        historicalData={this.state.historicalData}
+        historyData={this.state.historyData}
       />
     );
   }

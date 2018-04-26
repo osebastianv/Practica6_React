@@ -3,7 +3,7 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Game, Ranking } from '../../../scenes';
+import { Game, History } from '../../../scenes';
 
 const StyledWrapper = styled.div`
   padding: ${props => props.theme.space.md};
@@ -16,8 +16,7 @@ const Content = ({
   gameOver,
   updateList,
   resetList,
-  historicalCounter,
-  historicalData,
+  historyData,
 }) => (
   <StyledWrapper>
     <Route
@@ -34,13 +33,7 @@ const Content = ({
         />
       )}
     />
-    <Route
-      exact
-      path="/ranking"
-      component={() => (
-        <Ranking historicalCounter={historicalCounter} historicalData={historicalData} />
-      )}
-    />
+    <Route exact path="/history" component={() => <History historyData={historyData} />} />
   </StyledWrapper>
 );
 

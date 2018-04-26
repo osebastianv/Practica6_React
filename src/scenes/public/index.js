@@ -1,2 +1,2 @@
 export { default as Game } from './Game';
-export { default as Ranking } from './Ranking';
+export { default as History } from './History';
