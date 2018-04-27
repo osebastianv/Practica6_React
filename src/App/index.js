@@ -21,7 +21,6 @@ if (!currentTurnSrc) {
 }
 
 let gameDataSrc = localStorage.getItem(GAME_DATA);
-// console.log('1', gameData);
 if (!gameDataSrc) {
   localStorage.setItem(GAME_DATA, JSON.stringify([]));
 }
@@ -114,7 +113,6 @@ class App extends Component {
   };
 
   checkEndOfGame = (data) => {
-    // Combinaciones de victoria
     let isEndOfGame = true;
 
     for (let i = 0; i < data.length; i += 1) {
@@ -128,8 +126,6 @@ class App extends Component {
   };
 
   updateList = (row) => {
-    // console.log('row', row);
-
     this.setState((prevState) => {
       const newGameData = prevState.gameData;
 
@@ -166,9 +162,6 @@ class App extends Component {
 
       const newHistoryData = prevState.historyData;
       if (newGameOver) {
-        console.log('1-historyDataSrc', historyDataSrc);
-        console.log('2-historyData', newHistoryData);
-
         newHistoryData.push({
           gameCounter: newHistoryData.length + 1,
           currentPlayer: newPlayer,

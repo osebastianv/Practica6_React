@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-// import { Grid } from '../';
 import GridView from '../Grid/view';
 
 const StyledWrapper = styled.div``;
@@ -10,17 +9,14 @@ const StyledWrapper = styled.div``;
 const StyledBody = styled.div`
   display: flex;
   justify-content: flex-start;
-  /*background: ${props => props.theme.colors.player1};*/
 `;
 
 const StyledSection = styled.div`
   display: block;
   width: 240px;
-  /*background: green;*/
 `;
 
 const StyledLine = styled.div`
-  /*size: 5px;*/
   width: 220px;
   height: 2px;
   margin: 1px;
@@ -33,8 +29,6 @@ const StyledItem = styled.div`
   height: 30px;
   margin: 0px;
   padding: 5px;
-  /*border-bottom: 1px solid black;
-  border-left: 1px solid black;*/
   background: ${(props) => {
     if (props.selected === true) {
       return props.theme.colors.grayLight;
@@ -53,7 +47,7 @@ const List = ({ historyData, listSelectedIndex, selectElement }) => (
     <p>Total de partidas jugadas: {historyData.length}</p>
     <StyledBody>
       <StyledSection>
-        <StyledLine />
+        {historyData && historyData.length > 0 && <StyledLine />}
         {historyData &&
           historyData.map(value => (
             <Fragment>

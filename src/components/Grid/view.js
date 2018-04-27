@@ -7,7 +7,6 @@ import { Button } from '../';
 const StyledWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
-  /*background: ${props => props.theme.colors.player1};*/
 `;
 
 const StyledSection = styled.div`
@@ -19,16 +18,19 @@ const StyledGrid = styled.div`
   grid-auto-flow: row;
   grid-template-columns: 80px 80px 80px;
   grid-gap: ${props => props.theme.space.md};
-  /*background: ${props => props.theme.colors.player2};*/
 `;
 
 const StyledItem = styled.div`
-  /*position: relative;*/
+  display: flex;
   width: 80px;
   height: 80px;
   border: 1px solid black;
   padding: 3px;
-  background: ${(props) => {
+`;
+
+const StyledLetter = styled.div`
+  font-size: 70px;
+  color: ${(props) => {
     if (props.player === 1) {
       return props.theme.colors.player1;
     } else if (props.player === 2) {
@@ -67,11 +69,15 @@ const Grid = ({
               player={value.player}
             >
               {value.turn !== 0 && value.turn}
+              <StyledLetter player={value.player}>
+                {value.player === 1 && 'O'}
+                {value.player === 2 && 'X'}
+              </StyledLetter>
             </StyledItem>
           ))}
       </StyledGrid>
       <StyledButton hidden={!updateList}>
-        <Button onClick={resetList}>Reset</Button>
+        <Button onClick={resetList}>Reiniciar</Button>
       </StyledButton>
     </StyledSection>
 
