@@ -13,7 +13,7 @@ const StyledLink = styled(NavLink)`
   font-size: ${props => props.theme.fontSizes.md};
   margin-right: 30px;
   &.active {
-    border-bottom: 6px solid ${props => props.theme.colors.white};
+    border-bottom: 4px solid ${props => props.theme.colors.white};
   }
   &:last-child {
     margin-right: 0;

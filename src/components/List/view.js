@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 // import { Grid } from '../';
+import GridView from '../Grid/view';
 
 const StyledWrapper = styled.div``;
 
@@ -14,49 +15,89 @@ const StyledBody = styled.div`
 
 const StyledSection = styled.div`
   display: block;
-  width: 50%;
-  background: white;
+  width: 240px;
+  /*background: green;*/
+`;
+
+const StyledLine = styled.div`
+  /*size: 5px;*/
+  width: 220px;
+  height: 2px;
+  margin: 1px;
+  background: black;
 `;
 
 const StyledItem = styled.div`
-  display: inline-block;
-
-  width: 100%;
-  height: 25px;
-  border: 1px solid black;
-  background: white;
+  display: block;
+  width: 220px;
+  height: 30px;
+  margin: 0px;
+  padding: 5px;
+  /*border-bottom: 1px solid black;
+  border-left: 1px solid black;*/
+  background: ${(props) => {
+    if (props.selected === true) {
+      return props.theme.colors.grayLight;
+    }
+    return props.theme.colors.white;
+  }};
 `;
 
 const StyledPlayer = styled.div`
   display: inline-block;
-  margin-left: 25px;
+  margin-left: 50px;
 `;
 
-const List = ({ historyData }) => (
+const List = ({ historyData, listSelectedIndex, selectElement }) => (
   <StyledWrapper>
     <p>Total de partidas jugadas: {historyData.length}</p>
     <StyledBody>
       <StyledSection>
+        <StyledLine />
         {historyData &&
           historyData.map(value => (
-            <StyledItem key={value.gameCounter}>
-              <span>Partida {value.gameCounter}: </span>
-              {value.currentPlayer === 0 && <span> Empate </span>}
-              {value.currentPlayer !== 0 && <span> Jugador {value.currentPlayer} Gana </span>}
-            </StyledItem>
+            <Fragment>
+              <StyledItem
+                key={value.gameCounter}
+                onClick={() => {
+                  selectElement(value.gameCounter);
+                }}
+                selected={listSelectedIndex === value.gameCounter}
+              >
+                <span>Partida {value.gameCounter}: </span>
+                {value.currentPlayer === 0 && <span> Empate </span>}
+                {value.currentPlayer !== 0 && <span> Jugador {value.currentPlayer} Gana </span>}
+              </StyledItem>
+              <StyledLine />
+            </Fragment>
           ))}
       </StyledSection>
       <StyledPlayer>
-        <p />
+        {historyData &&
+          historyData.length > 0 &&
+          listSelectedIndex > 0 && (
+            <div>
+              <GridView
+                currentPlayer={historyData[listSelectedIndex - 1].currentPlayer}
+                currentTurn={historyData[listSelectedIndex - 1].currentTurn}
+                gameData={historyData[listSelectedIndex - 1].gameData}
+                gameOver={historyData[listSelectedIndex - 1].gameOver}
+              />
+            </div>
+          )}
       </StyledPlayer>
     </StyledBody>
   </StyledWrapper>
 );
 
-List.defaultProps = {};
+List.defaultProps = {
+  listSelectedIndex: 0,
+};
 
 List.propTypes = {
   historyData: PropTypes.arrayOf(PropTypes.any).isRequired,
+  listSelectedIndex: PropTypes.number,
+  selectElement: PropTypes.func.isRequired,
 };
 
 export default List;

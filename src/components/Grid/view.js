@@ -27,6 +27,7 @@ const StyledItem = styled.div`
   width: 80px;
   height: 80px;
   border: 1px solid black;
+  padding: 3px;
   background: ${(props) => {
     if (props.player === 1) {
       return props.theme.colors.player1;
@@ -69,7 +70,7 @@ const Grid = ({
             </StyledItem>
           ))}
       </StyledGrid>
-      <StyledButton>
+      <StyledButton hidden={!updateList}>
         <Button onClick={resetList}>Reset</Button>
       </StyledButton>
     </StyledSection>

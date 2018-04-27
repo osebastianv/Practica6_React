@@ -8,19 +8,23 @@ class List extends Component {
   static propTypes = {
     historyData: PropTypes.arrayOf(PropTypes.any).isRequired,
   };
-  // state = {
-  //  listSelectedIndex: 0,
-  // };
+  state = {
+    listSelectedIndex: 0,
+  };
 
-  // selectElement = () => {};
+  selectElement = (row) => {
+    this.setState(() => ({
+      listSelectedIndex: row,
+    }));
+  };
 
   render() {
     // console.log('4', this.props.gameData);
     return (
       <ListView
         historyData={this.props.historyData}
-        // listSelectedIndex={this.state.listSelectedIndex}
-        // selectElement={this.selectElement}
+        listSelectedIndex={this.state.listSelectedIndex}
+        selectElement={this.selectElement}
       />
     );
   }
